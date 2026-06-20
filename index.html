@@ -202,46 +202,56 @@
     <p>⚡ HÀNH TRÌNH ĐỘ KIẾP THÀNH TIÊN BẮT ĐẦU TỪ ĐÂY ⚡</p>
     
     <div class="btn-box">
-        <!-- ĐỔI LINK CỦA ÔNG VÀO ĐÂY -->
         <a href="https://github.com/turkid2003-dev/webgame/releases/download/v1.0/MinecraftLauncher.Setup.1.0.0.exe" class="btn btn-launcher" target="_blank">🚀 Tải Launcher Tu Tiên</a>
         <a href="https://github.com/turkid2003-dev/webgame/releases/download/v1.0/CSL.Skin.Installer.exe" class="btn btn-tool" target="_blank">🛠️ Tải Skin Tool</a>
     </div>
 
     <blockquote>
-        📌 <strong>đạo hữu:</strong> Khi chạy Launcher, nếu Windows hiện cảnh báo nguy hiểm (SmartScreen), đừng hoảng hốt! Hãy bấm vào <strong>"More info"</strong> rồi chọn <strong>"Run anyway"</strong> là vào game quẩy bình thường nhé.
+        📌 <strong>Đạo hữu lưu ý:</strong> Khi chạy Launcher, nếu Windows hiện cảnh báo nguy hiểm (SmartScreen), đừng hoảng hốt! Hãy bấm vào <strong>"More info"</strong> rồi chọn <strong>"Run anyway"</strong> là vào game quẩy bình thường nhé.
     </blockquote>
 </div>
 
 <script>
-    const music = document.getElementById('bg-music');
-    const musicText = document.getElementById('music-text');
-    const musicIcon = document.getElementById('music-icon');
-    const splash = document.getElementById('splash-screen');
+    // Đảm bảo code chạy sau khi HTML load xong
+    document.addEventListener("DOMContentLoaded", function() {
+        console.log("Website da load san sang!");
+    });
 
-    // Hàm xử lý khi bấm nút "Độ Kiếp" để vào web
     function kichHoatWeb() {
-        // 1. Ẩn màn hình chào đi
+        const music = document.getElementById('bg-music');
+        const splash = document.getElementById('splash-screen');
+
+        if (!splash) return;
+
+        // 1. Ẩn màn hình chào ngay lập tức
         splash.style.opacity = '0';
-        setTimeout(() => {
+        setTimeout(function() {
             splash.style.display = 'none';
         }, 800);
 
-        // 2. Ép phát nhạc (Trình duyệt sẽ CHO PHÉP vì vừa có hành động click)
-        music.play().catch(error => {
-            console.log("Trình duyệt vẫn chặn, lỗi: ", error);
-        });
+        // 2. Chạy nhạc độc lập, lỗi nhạc cũng không làm đơ nút bấm
+        if (music) {
+            music.play().catch(function(error) {
+                console.log("Trình duyệt chặn tự động phát hoặc thiếu file nhạc: ", error);
+            });
+        }
     }
 
-    // Hàm bật tắt nhạc thủ công ở góc màn hình
     function toggleMusic() {
+        const music = document.getElementById('bg-music');
+        const musicText = document.getElementById('music-text');
+        const musicIcon = document.getElementById('music-icon');
+
+        if (!music) return;
+
         if (music.paused) {
             music.play();
-            musicText.innerText = "Tắt Nhạc Nền";
-            musicIcon.innerText = "⏸️";
+            if (musicText) musicText.innerText = "Tắt Nhạc Nền";
+            if (musicIcon) musicIcon.innerText = "⏸️";
         } else {
             music.pause();
-            musicText.innerText = "Bật Nhạc Nền";
-            musicIcon.innerText = "🎵";
+            if (musicText) musicText.innerText = "Bật Nhạc Nền";
+            if (musicIcon) musicIcon.innerText = "🎵";
         }
     }
 </script>
